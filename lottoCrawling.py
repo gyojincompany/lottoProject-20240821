@@ -50,7 +50,17 @@ for count in range(1, get_recent_lottocount()+1):
         'lottoNum4': lottoResult['lottoNumber'][3],  # 로또 당첨번호 중 첫번째 당첨번호
         'lottoNum5': lottoResult['lottoNumber'][4],  # 로또 당첨번호 중 첫번째 당첨번호
         'lottoNum6': lottoResult['lottoNumber'][5],  # 로또 당첨번호 중 첫번째 당첨번호
-        'bonusNum': lottoResult['bonusNumber']  # 로또 버보너스 번호
+        'bonusNum': lottoResult['bonusNumber']  # 로또 보너스 번호
     })
 
-print(lottoNumList)
+# print(lottoNumList)
+
+lottoDF = pd.DataFrame(data=lottoNumList, columns=['count', 'lottoDate', 'lottoNum1',
+       'lottoNum2','lottoNum3','lottoNum4','lottoNum5','lottoNum6','bonusNum'])
+
+print(lottoDF)
+
+engine = create_engine("mysql+pymysql://root:12345@localhost:3306/lottodata?charset=utf8mb4")
+engine.connect()
+
+lottoDF.to_sql(con=engine, name="lottotbl", index=False, if_exists='append')
