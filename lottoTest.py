@@ -16,3 +16,18 @@ date = soup.find('p', {'class':'desc'}).text  # 로또 추첨일
 print(date)
 lottoDate = datetime.strptime(date, "(%Y년 %m월 %d일 추첨)")
 print(lottoDate)
+
+lottoNumber = soup.find('div',{'class':'num win'}).find('p').text.strip().split('\n')
+print(lottoNumber)
+
+lottoNumberList = []
+for num in lottoNumber:
+    num = int(num)
+    lottoNumberList.append(num)
+
+print(lottoNumberList)
+
+bonusNumber = soup.find('div', {'class':'num bonus'}).find('p').text.strip()
+bonusNumber = int(bonusNumber)
+print(bonusNumber)
+
