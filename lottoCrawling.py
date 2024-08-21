@@ -27,11 +27,19 @@ def get_lottoNum(count):  # 로또추첨회차를 입력 받아서 당첨번호�
 
     return lottoData
 
-print(get_lottoNum(1133))
+# print(get_lottoNum(1133))
+
+def get_recent_lottocount():  # 최신 로또 회차 크롤링 함수
+    url = "https://dhlottery.co.kr/common.do?method=main"
+    html = requests.get(url).text  # 위 주소의 html 소스코드를 가져와서 저장
+    soup = BeautifulSoup(html, 'html.parser')
+    recent_count = soup.find('strong', {'id': 'lottoDrwNo'}).text.strip()  # 가장 최신 회차
+    recent_count = int(recent_count)
+    return recent_count
 
 lottoNumList = []
 
-for count in range(1, 1134):
+for count in range(1, get_recent_lottocount()+1):
     lottoResult = get_lottoNum(count)
     lottoNumList.append({
         'count': count,  # 로또 추첨 회차
